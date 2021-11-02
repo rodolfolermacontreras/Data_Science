@@ -1,0 +1,53 @@
+n_0, m = np.shape(X)
+n_1 = 2 #number of nodes
+    
+W1 = init_parameters(n_1, n_0, True)
+B1 = init_parameters(n_1,1, True)
+
+Wf = init_parameters(1, 2, True)
+Bf = init_parameters(1,1, True)
+
+num_epochs = 500
+
+loss_array = np.ones([num_epochs])*np.nan # resets the loss_array to NaNs
+    
+#for i in np.arange(num_epochs):
+#Forward
+A1 = fwd_prop(W1,B1,X)                # get predicted vector
+Af = fwd_prop(Wf,Bf,A1)
+        
+#Backward
+#From last layer
+m = np.shape(Af)[1]
+#Cross entropy
+cost = (-1/m)*np.sum(Y*np.log(Af) + (1-Y)*np.log(1-Af))
+dZf = Af - Y
+dWf = (1/m) * np.dot(dZf, A1.T)
+dBias = (1/m) * np.sum(dZf, axis = 1, keepdims = True)
+
+#From second to first layer
+dZf = Af - Af
+
+
+# gradsf,costf = back_prop(,,,A1,)
+# grads,cost = back_prop(A1,W1,B1,X,Y)    # get gradient and the cost from BP 
+        
+# # def back_prop(A1,W1,bias,X,Y):
+# #     m = np.shape(X)[1] # used the calculate the cost by the number of inputs -1/m
+# #     # Cross entropy loss function
+# #     cost = (-1/m)*np.sum(Y*np.log(A1) + (1-Y)*np.log(1-A1)) # cost of error
+# #     dZ1 = A1 - Y                                            # subtract actual from pred weights
+# #     dW1 = (1/m) * np.dot(dZ1, X.T)                          # calc new weight vector
+# #     dBias = (1/m) * np.sum(dZ1, axis = 1, keepdims = True)  # calc new bias vector
+# #     grads ={"dW1": dW1, "dB1":dBias} # Weight and bias vectors after backprop
+# #     return(grads,cost)
+        
+        
+#         W1 = W1 - learning_rate*grads["dW1"]    # update weight vector LR*gradient*[BP weights]
+#         B1 = B1 - learning_rate*grads["dB1"]    # update bias LR*gradient[BP bias]
+        
+#         loss_array[i] = cost                    # loss array gets cross ent values
+        
+#         parameter = {"W1":W1,"B1":B1}           # assign 
+    
+#     return(parameter,loss_array)
